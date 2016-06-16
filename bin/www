@@ -1,0 +1,20 @@
+#!/usr/bin/env node
+var debug = require('debug')('lunchtime-slackbot');
+var config = require('../config.js');
+var raygun = require('raygun');
+var domain = require('domain');
+
+var raygunClient = new raygun.Client().init({ apiKey: config.raygunApiKey });
+
+var d = domain.create();
+d.on('error', function(err) {
+  raygunClient.send(err, {}, function() {
+    console.log('Uncaught exception: ' + err);
+    process.exit(1);
+  }, null, ['domain_error']);
+});
+
+d.run(function(){
+  var bot = require('../bot');
+  bot.start();
+});
