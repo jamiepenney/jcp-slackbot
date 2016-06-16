@@ -4,21 +4,22 @@
   "description": "A Slack bot for the JCP Slack Team",
   "main": "bin/www",
   "dependencies": {
-    "bluebird": "^3.3.5",
-    "body-parser": "^1.15.1",
-    "botkit": "0.1.1",
+    "bluebird": "3.4.0",
+    "body-parser": "1.15.1",
+    "botkit": "0.2.0",
     "debug": "2.2.0",
-    "easy-table": "^1.0.0",
-    "escape-string-regexp": "^1.0.4",
-    "express": "^4.13.4",
-    "raygun": "^0.8.5",
-    "request": "^2.69.0",
-    "slack-client": "2.0.4",
-    "winston": "^2.2.0",
-    "yahoo-finance": "^0.2.12"
+    "easy-table": "1.0.0",
+    "escape-string-regexp": "1.0.5",
+    "express": "4.13.4",
+    "raygun": "0.8.5",
+    "request": "2.72.0",
+    "@slack/client": "3.5.0",
+    "winston": "2.2.0",
+    "yahoo-finance": "0.2.12"
   },
   "devDependencies": {},
   "scripts": {
+    "start": "node bin/www",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
