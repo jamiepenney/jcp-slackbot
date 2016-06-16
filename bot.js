@@ -131,13 +131,5 @@ module.exports = {
       }
       controller.saveTeam(bot.team_info, function() {});
     });
-
-    // receive slash commands
-    server.setupWebserver(config.port, function(err,webserver) {
-      if (err) {
-        throw new Error('Could not connect to Slack');
-      }
-      server.createWebhookEndpoints(controller, webserver);
-    });
   }
 };
