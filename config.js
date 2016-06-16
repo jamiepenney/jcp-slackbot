@@ -5,7 +5,7 @@
   port: process.env.PORT || 8080,
   logging: {
     level: process.env.LOGGING_LEVEL || 'debug',
-    file: process.env.LOG_FILE || 'log.txt'
+    file: process.env.LOG_FILE || 'debug.log'
   }
 };
 

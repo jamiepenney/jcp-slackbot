@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-var debug = require('debug')('lunchtime-slackbot');
+var debug = require('debug')('jcp-slackbot');
 var config = require('../config.js');
 var raygun = require('raygun');
 var domain = require('domain');
