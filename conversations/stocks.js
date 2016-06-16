@@ -9,7 +9,11 @@ var conversation = function(bot, user, message) {
       symbol: stockSymbol,
       fields: ['s', 'n', 'd1', 'l1', 'y', 'r', 'j1', 'w1', 'c', 'o', 'w'] // https://github.com/pilwon/node-yahoo-finance/blob/master/lib/fields.js
     }).then(function(stock){
-      // console.log(Table.print([stock]));
+      //console.log(Table.print([stock]));
+      if(!stock.name) {
+        conversation.say('Couldn\'t get stock information for ' + stockSymbol);
+        return;
+      }
       var colour = stock.changeAndPercentChange > 0 ? "good" : "danger";
       var message = stock.changeAndPercentChange > 0 ? "Up so far today" : "Down so far today";
 
