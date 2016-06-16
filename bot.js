@@ -1,5 +1,5 @@
 // npm modules
-var SlackClient = require('slack-client');
+var SlackClient = require('@slack/client');
 var config = require('./config')
 var request = require('request');
 var Promise = require('bluebird');
