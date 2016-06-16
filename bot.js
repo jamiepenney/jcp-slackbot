@@ -6,7 +6,6 @@ var Promise = require('bluebird');
 
 // internal modules
 var logger = require('./logger');
-var server = require('./webserver');
 var stocks = require('./conversations/stocks');
 
 var slack = new SlackClient.WebClient(config.slackToken);
