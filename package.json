@@ -17,6 +17,9 @@
     "winston": "2.2.0",
     "yahoo-finance": "0.2.12"
   },
+  "engines": {
+    "node": "6.2.0"
+  },
   "devDependencies": {},
   "scripts": {
     "start": "node bin/www",
