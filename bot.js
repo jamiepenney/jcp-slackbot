@@ -3,7 +3,7 @@ var Promise = require('bluebird');
 var SlackClient = require('@slack/client');
 var config = require('./config')
 var Request = require('request');
-var request = Promise.promisify(request);
+var request = Promise.promisify(Request);
 
 // internal modules
 var logger = require('./logger');
@@ -80,12 +80,12 @@ controller.hears(["hello", "hi", "hey"],["direct_message","direct_mention", "men
 
 controller.hears(['.*'], ["direct_message","direct_mention", "mention"], function(bot, message){
   getUser(message.user).then(function(user){
-    request('http://catfacts-api.appspot.com/api/facts').then(function (response, body){
+    request('http://catfacts-api.appspot.com/api/facts').then(function (response){
       if(response.statusCode !== 200) {
         console.log(response);
         return;
       }
-      var facts = JSON.parse(body);
+      var facts = JSON.parse(response.body);
       if(facts && facts.success){
         bot.startConversation(message, function(err, conversation){
           conversation.say('Hello ' + (user.profile.real_name || user.name));
