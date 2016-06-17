@@ -1,16 +1,15 @@
 // npm modules
+var Promise = require('bluebird');
 var SlackClient = require('@slack/client');
 var config = require('./config')
-var request = require('request');
-var Promise = require('bluebird');
+var Request = require('request');
+var request = Promise.promisify(request);
 
 // internal modules
 var logger = require('./logger');
 var stocks = require('./conversations/stocks');
 
 var slack = new SlackClient.WebClient(config.slackToken);
-
-var botUserId;
 
 var slackInfo = Promise.promisify(slack.users.info, {
   context: slack.users
@@ -40,14 +39,6 @@ var bot = controller.spawn({
   token: config.slackToken
 });
 
-controller.on('slash_command',function(bot,message) {
-
-  // reply to slash command
-  bot.replyPublic(message,'Everyone can see the results of this slash command');
-
-});
-
-
 //////////////////////
 /// Stock response ///
 //////////////////////
@@ -66,10 +57,7 @@ controller.hears(stocks.match, ["direct_message","direct_mention", "mention"], f
 /////////////////////
 
 controller.hears(["help"],["direct_message","direct_mention", "mention"],function(bot,message) {
-  getUser(message.user, function(err, user){
-    if(err){
-      return;
-    }
+  getUser(message.user).then(function(user){
     bot.startConversation(message, function(err, conversation){
       conversation.say('Hello ' + (user.profile.real_name || user.name));
       conversation.say('I understand the following commands:');
@@ -85,22 +73,16 @@ controller.hears(["help"],["direct_message","direct_mention", "mention"],functio
 //////////////////////
 
 controller.hears(["hello", "hi", "hey"],["direct_message","direct_mention", "mention"],function(bot,message) {
-  getUser(message.user, function(err, user){
-    if(err){
-      return;
-    }
+  getUser(message.user).then(function(user){
     bot.reply(message, 'Hello ' + (user.profile.real_name || user.name));
   });
 });
 
 controller.hears(['.*'], ["direct_message","direct_mention", "mention"], function(bot, message){
-  getUser(message.user, function(err, user){
-    if(err){
-      return;
-    }
-    request('http://catfacts-api.appspot.com/api/facts', function (err, response, body){
-      if(err || response.statusCode !== 200) {
-        console.log(err || response);
+  getUser(message.user).then(function(user){
+    request('http://catfacts-api.appspot.com/api/facts').then(function (response, body){
+      if(response.statusCode !== 200) {
+        console.log(response);
         return;
       }
       var facts = JSON.parse(body);
@@ -111,8 +93,8 @@ controller.hears(['.*'], ["direct_message","direct_mention", "mention"], functio
           conversation.say(facts.facts[0]);
         });
       }
-    })
-  })
+    });
+  });
 });
 
 ///////////////
