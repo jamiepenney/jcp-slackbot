@@ -14,8 +14,12 @@ var conversation = function(bot, user, message) {
         conversation.say('Couldn\'t get stock information for ' + stockSymbol);
         return;
       }
-      var colour = stock.changeAndPercentChange > 0 ? "good" : "danger";
-      var message = stock.changeAndPercentChange > 0 ? "Up so far today" : "Down so far today";
+
+      var upToday = stock.lastTradePriceOnly > stock.open;
+      var noChange = stock.lastTradePriceOnly == stock.open
+
+      var colour = upToday || noChange ? "good" : "danger";
+      var message = upToday ? "Up so far today" : noChange ? "No change" : "Down so far today";
 
       conversation.say({
         'text': 'Here\'s the current data for ' + stock.symbol + ' - ' + stock.name,
