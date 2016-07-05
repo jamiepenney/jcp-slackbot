@@ -36,7 +36,8 @@ function randomResponse(responses){
 var Botkit = require('botkit');
 var controller = Botkit.slackbot();
 var bot = controller.spawn({
-  token: config.slackToken
+  token: config.slackToken,
+  retry: Number.POSITIVE_INFINITY // retry reconnection forever
 });
 
 //////////////////////
